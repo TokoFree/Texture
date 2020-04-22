@@ -56,6 +56,7 @@
 @property (nonatomic) BOOL animatesContentOffset;
 @property (nonatomic) BOOL showsVerticalScrollIndicator;
 @property (nonatomic) BOOL showsHorizontalScrollIndicator;
+@property (nonatomic) BOOL enableFlushEditing;
 @end
 
 @implementation _ASCollectionPendingState
@@ -71,6 +72,7 @@
     _contentInset = UIEdgeInsetsZero;
     _contentOffset = CGPointZero;
     _animatesContentOffset = NO;
+    _enableFlushEditing = NO;
   }
   return self;
 }
@@ -229,6 +231,8 @@
     if (pendingState.rangeMode != ASLayoutRangeModeUnspecified) {
       [view.rangeController updateCurrentRangeWithMode:pendingState.rangeMode];
     }
+    
+    view.dataController.enableFlushEditing = pendingState.enableFlushEditing;
     
     // Don't need to set collectionViewLayout to the view as the layout was already used to init the view in view block.
   }
@@ -1002,6 +1006,22 @@
   if (self.nodeLoaded) {
     [self.view moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
   }
+}
+
+#pragma mark - Experiments
+
+-(void)setEnableFlushEditing:(BOOL)enableFlushEditing
+{
+  if ([self pendingState]) {
+    _pendingState.enableFlushEditing = enableFlushEditing;
+  } else {
+    [self.dataController setEnableFlushEditing:enableFlushEditing];
+  }
+}
+
+-(BOOL)enableFlushEditing
+{
+  return self.dataController.enableFlushEditing;
 }
 
 #pragma mark - ASRangeControllerUpdateRangeProtocol

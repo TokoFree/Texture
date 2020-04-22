@@ -549,6 +549,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable id<ASSectionContext>)contextForSection:(NSInteger)section AS_WARN_UNUSED_RESULT;
 
+#pragma mark - Experiments
+
+/**
+ * Enable flush editing in DataController
+ * Flush editing will be removed in further version, in version 2.8 the flush editing toggled by ASExperiments.
+ * Since using ASExperiments will enable the whole Texture Code, This property allows to configure individually
+ *
+ * The default value is YES.
+*/
+@property (nonatomic) BOOL enableFlushEditing;
+
+@end
+
 @end
 
 @interface ASCollectionNode (Deprecated)

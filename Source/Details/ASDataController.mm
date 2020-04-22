@@ -75,6 +75,8 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   BOOL _initialReloadDataHasBeenCalled;
 
   BOOL _synchronized;
+  BOOL _enableFlushEditing;
+  
   NSMutableSet<ASDataControllerSynchronizationBlock> *_onDidFinishSynchronizingBlocks;
 
   struct {
@@ -201,6 +203,18 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   CGRect frame = CGRectZero;
   frame.size = [node layoutThatFits:constrainedSize].size;
   node.frame = frame;
+}
+
+#pragma mark - Experiments
+
+-(void)setEnableFlushEditing:(BOOL)enableFlushEditing
+{
+  _enableFlushEditing = enableFlushEditing;
+}
+
+-(BOOL)enableFlushEditing
+{
+  return _enableFlushEditing;
 }
 
 #pragma mark - Data Source Access (Calling _dataSource)
