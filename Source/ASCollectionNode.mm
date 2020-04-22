@@ -72,7 +72,7 @@
     _contentInset = UIEdgeInsetsZero;
     _contentOffset = CGPointZero;
     _animatesContentOffset = NO;
-    _enableFlushEditing = NO;
+    _enableFlushEditing = YES;
   }
   return self;
 }

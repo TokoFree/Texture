@@ -124,6 +124,7 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   _mainSerialQueue = [[ASMainSerialQueue alloc] init];
 
   _synchronized = YES;
+  _enableFlushEditing = YES;
   _onDidFinishSynchronizingBlocks = [NSMutableSet set];
   
   const char *queueName = [[NSString stringWithFormat:@"org.AsyncDisplayKit.ASDataController.editingTransactionQueue:%p", self] cStringUsingEncoding:NSASCIIStringEncoding];
