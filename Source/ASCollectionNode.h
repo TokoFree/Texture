@@ -562,8 +562,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@end
-
 @interface ASCollectionNode (Deprecated)
 
 - (void)waitUntilAllUpdatesAreCommitted ASDISPLAYNODE_DEPRECATED_MSG("This method has been renamed to -waitUntilAllUpdatesAreProcessed.");
