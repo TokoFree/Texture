@@ -47,6 +47,7 @@
 @property (nonatomic) CGPoint contentOffset;
 @property (nonatomic) BOOL animatesContentOffset;
 @property (nonatomic) BOOL automaticallyAdjustsContentOffset;
+@property (nonatomic) BOOL enableFlushEditing;
 @end
 
 @implementation _ASTablePendingState
@@ -65,6 +66,7 @@
     _contentOffset = CGPointZero;
     _animatesContentOffset = NO;
     _automaticallyAdjustsContentOffset = NO;
+    _enableFlushEditing = YES;
   }
   return self;
 }
@@ -142,6 +144,8 @@
     }
 
     [view setContentOffset:pendingState.contentOffset animated:pendingState.animatesContentOffset];
+    
+    view.dataController.enableFlushEditing = pendingState.enableFlushEditing;
   }
 }
 
@@ -809,6 +813,22 @@ ASLayoutElementCollectionTableSetTraitCollection(_environmentStateLock)
   [result addObject:@{ @"dataSource" : ASObjectDescriptionMakeTiny(self.dataSource) }];
   [result addObject:@{ @"delegate" : ASObjectDescriptionMakeTiny(self.delegate) }];
   return result;
+}
+
+#pragma mark - Experiments
+
+-(void)setEnableFlushEditing:(BOOL)enableFlushEditing
+{
+  if ([self pendingState]) {
+    _pendingState.enableFlushEditing = enableFlushEditing;
+  } else {
+    [self.dataController setEnableFlushEditing:enableFlushEditing];
+  }
+}
+
+-(BOOL)enableFlushEditing
+{
+  return self.dataController.enableFlushEditing;
 }
 
 @end
