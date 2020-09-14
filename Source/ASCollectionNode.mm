@@ -57,6 +57,7 @@
 @property (nonatomic) BOOL showsVerticalScrollIndicator;
 @property (nonatomic) BOOL showsHorizontalScrollIndicator;
 @property (nonatomic) BOOL enableFlushEditing;
+@property (nonatomic, copy, nullable) void (^callbackOnAssert)(void);
 @end
 
 @implementation _ASCollectionPendingState
@@ -73,6 +74,7 @@
     _contentOffset = CGPointZero;
     _animatesContentOffset = NO;
     _enableFlushEditing = YES;
+    _callbackOnAssert = nil;
   }
   return self;
 }
@@ -1022,6 +1024,15 @@
 -(BOOL)enableFlushEditing
 {
   return self.dataController.enableFlushEditing;
+}
+
+#pragma mark - Collection Crash Logging
+
+-(void)setCallbackOnAssert:(nullable void (^)(void))callbackOnAssert
+{
+  if (callbackOnAssert != nil) {
+      self.view.temporaryCallbackOnAssert = callbackOnAssert;
+  }
 }
 
 #pragma mark - ASRangeControllerUpdateRangeProtocol
