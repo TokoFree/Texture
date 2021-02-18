@@ -319,6 +319,7 @@ typedef void (^ASImageNodeDrawParametersBlock)(ASWeakMapEntry *entry);
   drawParameters->_imageModificationBlock = _imageModificationBlock;
   drawParameters->_willDisplayNodeContentWithRenderingContext = _willDisplayNodeContentWithRenderingContext;
   drawParameters->_didDisplayNodeContentWithRenderingContext = _didDisplayNodeContentWithRenderingContext;
+  drawParameters->_traitCollection = _primitiveTraitCollection;
 
   // Hack for now to retain the weak entry that was created while this drawing happened
   drawParameters->_didDrawBlock = ^(ASWeakMapEntry *entry){
