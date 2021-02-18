@@ -24,7 +24,7 @@
 #import <AsyncDisplayKit/ASRangeControllerUpdateRangeProtocol+Beta.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
 
-@implementation ASViewController
+@implementation ASDKViewController
 {
   BOOL _ensureDisplayed;
   BOOL _automaticallyAdjustRangeModeBasedOnViewEvents;
@@ -64,6 +64,17 @@
   }
   
   _node = node;
+  [self _initializeInstance];
+
+  return self;
+}
+
+- (instancetype)init
+{
+  if (!(self = [super initWithNibName:nil bundle:nil])) {
+    return nil;
+  }
+
   [self _initializeInstance];
 
   return self;

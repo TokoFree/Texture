@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A transformed image.
  */
-typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image);
+typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image, ASPrimitiveTraitCollection traitCollection);
 
 
 /**

@@ -62,6 +62,7 @@ typedef void (^ASImageNodeDrawParametersBlock)(ASWeakMapEntry *entry);
   ASDisplayNodeContextModifier _willDisplayNodeContentWithRenderingContext;
   ASDisplayNodeContextModifier _didDisplayNodeContentWithRenderingContext;
   ASImageNodeDrawParametersBlock _didDrawBlock;
+  ASPrimitiveTraitCollection _traitCollection;
 }
 
 @end
@@ -361,7 +362,7 @@ typedef void (^ASImageNodeDrawParametersBlock)(ASWeakMapEntry *entry);
   BOOL stretchable = !UIEdgeInsetsEqualToEdgeInsets(image.capInsets, UIEdgeInsetsZero);
   if (stretchable) {
     if (imageModificationBlock != NULL) {
-      image = imageModificationBlock(image);
+//      image = imageModificationBlock(image, drawParameter->_traitCollection);
     }
     return image;
   }
@@ -466,7 +467,7 @@ static ASDN::StaticMutex& cacheLock = *new ASDN::StaticMutex;
   }
 }
 
-+ (UIImage *)createContentsForkey:(ASImageNodeContentsKey *)key drawParameters:(id)drawParameters isCancelled:(asdisplaynode_iscancelled_block_t)isCancelled
++ (UIImage *)createContentsForkey:(ASImageNodeContentsKey *)key drawParameters:(id)parameter isCancelled:(asdisplaynode_iscancelled_block_t)isCancelled
 {
   // The following `ASGraphicsBeginImageContextWithOptions` call will sometimes take take longer than 5ms on an
   // A5 processor for a 400x800 backingSize.
@@ -474,6 +475,8 @@ static ASDN::StaticMutex& cacheLock = *new ASDN::StaticMutex;
   if (isCancelled()) {
     return nil;
   }
+  
+  ASImageNodeDrawParameters *drawParameters = (ASImageNodeDrawParameters *)parameter;
 
   // Use contentsScale of 1.0 and do the contentsScale handling in boundsSizeInPixels so ASCroppedImageBackingSizeAndDrawRectInBounds
   // will do its rounding on pixel instead of point boundaries
@@ -527,7 +530,7 @@ static ASDN::StaticMutex& cacheLock = *new ASDN::StaticMutex;
   UIImage *result = ASGraphicsGetImageAndEndCurrentContext();
   
   if (key.imageModificationBlock) {
-    result = key.imageModificationBlock(result);
+    result = key.imageModificationBlock(result, drawParameters->_traitCollection);
   }
   
   return result;
@@ -734,7 +737,7 @@ static ASDN::StaticMutex& cacheLock = *new ASDN::StaticMutex;
 
 extern asimagenode_modification_block_t ASImageNodeRoundBorderModificationBlock(CGFloat borderWidth, UIColor *borderColor)
 {
-  return ^(UIImage *originalImage) {
+  return ^(UIImage *originalImage, ASPrimitiveTraitCollection traitCollection) {
     ASGraphicsBeginImageContextWithOptions(originalImage.size, NO, originalImage.scale);
     UIBezierPath *roundOutline = [UIBezierPath bezierPathWithOvalInRect:(CGRect){CGPointZero, originalImage.size}];
 
@@ -757,7 +760,7 @@ extern asimagenode_modification_block_t ASImageNodeRoundBorderModificationBlock(
 
 extern asimagenode_modification_block_t ASImageNodeTintColorModificationBlock(UIColor *color)
 {
-  return ^(UIImage *originalImage) {
+  return ^(UIImage *originalImage, ASPrimitiveTraitCollection traitCollection) {
     ASGraphicsBeginImageContextWithOptions(originalImage.size, NO, originalImage.scale);
     
     // Set color and render template
