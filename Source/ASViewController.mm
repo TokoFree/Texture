@@ -35,6 +35,9 @@
   UIEdgeInsets _fallbackAdditionalSafeAreaInsets;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
   if (!(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
@@ -56,6 +59,8 @@
   
   return self;
 }
+
+#pragma clang diagnostic pop
 
 - (instancetype)initWithNode:(ASDisplayNode *)node
 {

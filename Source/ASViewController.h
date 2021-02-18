@@ -44,7 +44,7 @@ typedef ASTraitCollection * _Nonnull (^ASDisplayTraitsForTraitWindowSizeBlock)(C
  *
  * @see ASVisibilityDepth
  */
-- (instancetype)initWithNode:(DisplayNodeType)node;
+- (instancetype)initWithNode:(DisplayNodeType)node NS_DESIGNATED_INITIALIZER;
 
 /**
 * ASDKViewController initializer. Useful for interoperability with normal UIViewControllers.
