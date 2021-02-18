@@ -363,7 +363,7 @@ typedef void (^ASImageNodeDrawParametersBlock)(ASWeakMapEntry *entry);
   BOOL stretchable = !UIEdgeInsetsEqualToEdgeInsets(image.capInsets, UIEdgeInsetsZero);
   if (stretchable) {
     if (imageModificationBlock != NULL) {
-//      image = imageModificationBlock(image, drawParameter->_traitCollection);
+      image = imageModificationBlock(image, drawParameter->_traitCollection);
     }
     return image;
   }
