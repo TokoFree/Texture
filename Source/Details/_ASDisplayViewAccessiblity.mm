@@ -263,10 +263,11 @@ static void CollectAccessibilityElementsForView(_ASDisplayView *view, NSMutableA
   if (viewNode == nil) {
     return @[];
   }
-  
-  if (_accessibleElements != nil) {
-    return _accessibleElements;
-  }
+
+  // Quick fix for PDP VoiceOver by disabling cache (Texture 3 remove the cache as well)
+  // if (_accessibleElements != nil) {
+  //   return _accessibleElements;
+  // }
   
   NSMutableArray *accessibleElements = [NSMutableArray array];
   CollectAccessibilityElementsForView(self, accessibleElements);
