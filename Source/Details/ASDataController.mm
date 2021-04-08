@@ -60,6 +60,8 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   BOOL _initialReloadDataHasBeenCalled;
 
   BOOL _synchronized;
+  BOOL _enableFlushEditing;
+
   NSMutableSet<ASDataControllerSynchronizationBlock> *_onDidFinishSynchronizingBlocks;
 
   struct {
@@ -103,6 +105,7 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   _mainSerialQueue = [[ASMainSerialQueue alloc] init];
 
   _synchronized = YES;
+  _enableFlushEditing = YES;
   _onDidFinishSynchronizingBlocks = [[NSMutableSet alloc] init];
   
   const char *queueName = [[NSString stringWithFormat:@"org.AsyncDisplayKit.ASDataController.editingTransactionQueue:%p", self] cStringUsingEncoding:NSASCIIStringEncoding];
@@ -203,6 +206,18 @@ typedef void (^ASDataControllerSynchronizationBlock)();
   CGRect frame = CGRectZero;
   frame.size = [node layoutThatFits:constrainedSize].size;
   node.frame = frame;
+}
+
+#pragma mark - Experiments
+
+-(void)setEnableFlushEditing:(BOOL)enableFlushEditing
+{
+  _enableFlushEditing = enableFlushEditing;
+}
+
+-(BOOL)enableFlushEditing
+{
+  return _enableFlushEditing;
 }
 
 #pragma mark - Data Source Access (Calling _dataSource)
@@ -568,7 +583,7 @@ typedef void (^ASDataControllerSynchronizationBlock)();
     os_log_debug(ASCollectionLog(), "performBatchUpdates %@ %@", ASViewToDisplayNode(ASDynamicCast(self.dataSource, UIView)), changeSet);
   }
 
-  if (!ASActivateExperimentalFeature(ASExperimentalOptimizeDataControllerPipeline)) {
+  if (!ASActivateExperimentalFeature(ASExperimentalOptimizeDataControllerPipeline) && _enableFlushEditing) {
     NSTimeInterval transactionQueueFlushDuration = 0.0f;
     {
       AS::ScopeTimer t(transactionQueueFlushDuration);

@@ -41,6 +41,7 @@
 @property (nonatomic) CGPoint contentOffset;
 @property (nonatomic) BOOL animatesContentOffset;
 @property (nonatomic) BOOL automaticallyAdjustsContentOffset;
+@property (nonatomic) BOOL enableFlushEditing;
 @property (nonatomic) BOOL pagingEnabled;
 @end
 
@@ -64,6 +65,7 @@
     _contentOffset = CGPointZero;
     _animatesContentOffset = NO;
     _automaticallyAdjustsContentOffset = NO;
+     _enableFlushEditing = YES;
     _pagingEnabled = NO;
   }
   return self;
@@ -193,6 +195,8 @@
     if (pendingState.rangeMode != ASLayoutRangeModeUnspecified) {
       [_rangeController updateCurrentRangeWithMode:pendingState.rangeMode];
     }
+
+    view.dataController.enableFlushEditing = pendingState.enableFlushEditing;
   }
 }
 
@@ -889,6 +893,22 @@ ASLayoutElementCollectionTableSetTraitCollection(_environmentStateLock)
   [result addObject:@{ @"dataSource" : ASObjectDescriptionMakeTiny(self.dataSource) }];
   [result addObject:@{ @"delegate" : ASObjectDescriptionMakeTiny(self.delegate) }];
   return result;
+}
+
+#pragma mark - Experiments
+
+-(void)setEnableFlushEditing:(BOOL)enableFlushEditing
+{
+  if ([self pendingState]) {
+    _pendingState.enableFlushEditing = enableFlushEditing;
+  } else {
+    [self.dataController setEnableFlushEditing:enableFlushEditing];
+  }
+}
+
+-(BOOL)enableFlushEditing
+{
+  return self.dataController.enableFlushEditing;
 }
 
 @end
