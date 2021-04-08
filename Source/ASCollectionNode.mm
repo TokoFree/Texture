@@ -65,6 +65,7 @@
 @property (nonatomic) BOOL showsVerticalScrollIndicator;
 @property (nonatomic) BOOL showsHorizontalScrollIndicator;
 @property (nonatomic) BOOL enableFlushEditing;
+@property (nonatomic, copy, nullable) void (^callbackOnAssert)(void);
 @property (nonatomic) BOOL pagingEnabled;
 @end
 
@@ -85,6 +86,7 @@
     _contentOffset = CGPointZero;
     _flags.animatesContentOffset = NO;
     _enableFlushEditing = YES;
+    _callbackOnAssert = nil;
     _flags.showsVerticalScrollIndicator = YES;
     _flags.showsHorizontalScrollIndicator = YES;
     _flags.pagingEnabled = NO;
@@ -1184,6 +1186,15 @@
 -(BOOL)enableFlushEditing
 {
   return self.dataController.enableFlushEditing;
+}
+
+#pragma mark - Collection Crash Logging
+
+-(void)setCallbackOnAssert:(nullable void (^)(void))callbackOnAssert
+{
+  if (callbackOnAssert != nil) {
+      self.view.temporaryCallbackOnAssert = callbackOnAssert;
+  }
 }
 
 #pragma mark - ASRangeControllerUpdateRangeProtocol
