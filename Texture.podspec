@@ -42,7 +42,7 @@ Pod::Spec.new do |spec|
   end
   
   spec.subspec 'PINRemoteImage' do |pin|
-      pin.dependency 'PINRemoteImage/iOS', '= 3.0.0-beta.13'
+      pin.dependency 'PINRemoteImage/iOS', '~> 3.0.0'
       pin.dependency 'PINRemoteImage/PINCache'
       pin.dependency 'PINRemoteImage/WebP'
       pin.dependency 'Texture/Core'
@@ -50,6 +50,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec 'IGListKit' do |igl|
       igl.dependency 'IGListKit', '~> 4.0'
+      igl.dependency 'IGListDiffKit', '~> 4.0'
       igl.dependency 'Texture/Core'
   end
 
