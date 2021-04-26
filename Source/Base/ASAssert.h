@@ -60,6 +60,7 @@
 #define ASDisplayNodeConditionalAssert(shouldTestCondition, condition, desc, ...) ASDisplayNodeAssert((!(shouldTestCondition) || (condition)), desc, ##__VA_ARGS__)
 #define ASDisplayNodeConditionalCAssert(shouldTestCondition, condition, desc, ...) ASDisplayNodeCAssert((!(shouldTestCondition) || (condition)), desc, ##__VA_ARGS__)
 
+#define ASDisplayNodeCAssertPermanent(object) ASDisplayNodeCAssert(CFGetRetainCount((__bridge CFTypeRef)(object)) == CFGetRetainCount(kCFNull), @"Expected %s to be a permanent object.", #object)
 #define ASDisplayNodeErrorDomain @"ASDisplayNodeErrorDomain"
 #define ASDisplayNodeNonFatalErrorCode 1
 
