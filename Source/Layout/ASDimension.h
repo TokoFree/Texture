@@ -85,6 +85,12 @@ typedef struct {
  */
 AS_EXTERN ASDimension const ASDimensionAuto;
 
+// Custom Implementation to return non-negative value (return zero if negative)
+ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT CGFloat PointShouldNotBeNegative(CGFloat points)
+{
+    return MAX(points, 0.0);
+}
+
 /**
  * Returns a dimension with the specified type and value.
  */
@@ -93,7 +99,9 @@ ASOVERLOADABLE ASDISPLAYNODE_INLINE ASDimension ASDimensionMake(ASDimensionUnit 
   if (unit == ASDimensionUnitAuto ) {
     ASDisplayNodeCAssert(value == 0, @"ASDimension auto value must be 0.");
   } else if (unit == ASDimensionUnitPoints) {
-    ASDisplayNodeCAssertPositiveReal(@"Points", value);
+      // Custom Implementation to return non-negative value (return zero if negative)
+      value = PointShouldNotBeNegative(value);
+
   } else if (unit == ASDimensionUnitFraction) {
     ASDisplayNodeCAssert( 0 <= value && value <= 1.0, @"ASDimension fraction value (%f) must be between 0 and 1.", value);
   }
@@ -123,8 +131,9 @@ ASOVERLOADABLE AS_WARN_UNUSED_RESULT AS_EXTERN ASDimension ASDimensionMake(NSStr
  */
 ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT ASDimension ASDimensionMakeWithPoints(CGFloat points)
 {
-  ASDisplayNodeCAssertPositiveReal(@"Points", points);
-  return ASDimensionMake(ASDimensionUnitPoints, points);
+  // Custom Implementation to return non-negative value (return zero if negative)
+    points = PointShouldNotBeNegative(points);
+    return ASDimensionMake(ASDimensionUnitPoints, points);
 }
 
 /**
@@ -240,10 +249,12 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT BOOL ASSizeRangeHasSignificantArea(AS
  */
 ASOVERLOADABLE ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT ASSizeRange ASSizeRangeMake(CGSize min, CGSize max)
 {
-  ASDisplayNodeCAssertPositiveReal(@"Range min width", min.width);
-  ASDisplayNodeCAssertPositiveReal(@"Range min height", min.height);
-  ASDisplayNodeCAssertInfOrPositiveReal(@"Range max width", max.width);
-  ASDisplayNodeCAssertInfOrPositiveReal(@"Range max height", max.height);
+    // Custom Implementation to return non-negative value (return zero if negative)
+    min.width = PointShouldNotBeNegative(min.width);
+    min.height = PointShouldNotBeNegative(min.height);
+    max.width = PointShouldNotBeNegative(max.width);
+    max.height = PointShouldNotBeNegative(max.height);
+   
   ASDisplayNodeCAssert(min.width <= max.width,
                        @"Range min width (%f) must not be larger than max width (%f).", min.width, max.width);
   ASDisplayNodeCAssert(min.height <= max.height,
