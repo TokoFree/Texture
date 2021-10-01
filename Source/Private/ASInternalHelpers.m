@@ -55,7 +55,7 @@ void ASInitializeFrameworkMainThreadOnConstructor(void)
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     ASDisplayNodeCAssertMainThread();
-//    ASNotifyInitialized();
+    ASNotifyInitialized();
 #if AS_SIGNPOST_ENABLE
     _ASInitializeSignpostObservers();
 #endif

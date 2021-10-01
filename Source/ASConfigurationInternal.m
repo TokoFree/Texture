@@ -111,3 +111,8 @@ BOOL ASActivateExperimentalFeature(ASExperimentalFeatures feature)
 {
   return [ASGetSharedConfigMgr() activateExperimentalFeature:feature];
 }
+
+void ASNotifyInitialized()
+{
+  [ASGetSharedConfigMgr() frameworkDidInitialize];
+}
