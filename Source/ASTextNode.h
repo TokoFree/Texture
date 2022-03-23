@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
  @abstract Draws interactive rich text.
  @discussion Backed by TextKit.
  */
-@interface ASTextNode : ASControlNode
+ASDISPLAYNODE_DEPRECATED_MSG("Please priotize using ASTextNode2 instead of ASTextNode if possible for safety threading")
+@interface ASTextNode: ASControlNode
 
 /**
  @abstract The styled text displayed by the node.

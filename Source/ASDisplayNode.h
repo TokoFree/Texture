@@ -669,7 +669,8 @@ extern NSInteger const ASDefaultDrawingPriority;
  * @discussion This property is thread-safe and should always be preferred over CALayer's cornerRadius property,
  * even if corner rounding type is ASCornerRoundingTypeDefaultSlowCALayer.
  */
-@property           CGFloat cornerRadius;                     // default=0.0
+
+@property           CGFloat cornerRadius ASDISPLAYNODE_DEPRECATED_MSG("Use cornerRadius directly is not safe threading, use `layer.cornerRadius` instead");                     // default=0.0
 
 @property           BOOL clipsToBounds;                    // default==NO
 @property (getter=isHidden)  BOOL hidden;                           // default==NO
