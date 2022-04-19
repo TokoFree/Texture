@@ -29,7 +29,7 @@
 #import <AsyncDisplayKit/ASBackgroundLayoutSpec.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
 #import <AsyncDisplayKit/ASDisplayNodeExtras.h>
-#import <AsyncDisplayKit/ASViewController.h>
+#import <AsyncDisplayKit/ASDKViewController.h>
 
 #import "ASXCTExtensions.h"
 #import "ASDisplayNodeTestsHelper.h"
@@ -274,7 +274,7 @@ for (ASDisplayNode *n in @[ nodes ]) {\
 }
 @end
 
-@interface ASTestViewController: ASViewController<ASDisplayNode *>
+@interface ASTestViewController: ASDKViewController<ASDisplayNode *>
 @end
 @implementation ASTestViewController
 - (BOOL)prefersStatusBarHidden { return YES; }
@@ -472,7 +472,7 @@ for (ASDisplayNode *n in @[ nodes ]) {\
   XCTAssertTrue(CGRectEqualToRect(CGRectZero, node.frame), @"default frame broken %@", hasLoadedView);
   XCTAssertTrue(CGPointEqualToPoint(CGPointZero, node.position), @"default position broken %@", hasLoadedView);
   XCTAssertEqual((CGFloat)0.0, node.zPosition, @"default zPosition broken %@", hasLoadedView);
-  XCTAssertEqual(node.isNodeLoaded && !isLayerBacked ? 2.0f : 1.0f, node.contentsScale, @"default contentsScale broken %@", hasLoadedView);
+  XCTAssertEqual(node.isNodeLoaded && isLayerBacked ? 2.0f : 1.0f, node.contentsScale, @"default contentsScale broken %@", hasLoadedView);
   XCTAssertEqual([UIScreen mainScreen].scale, node.contentsScaleForDisplay, @"default contentsScaleForDisplay broken %@", hasLoadedView);
   XCTAssertTrue(CATransform3DEqualToTransform(CATransform3DIdentity, node.transform), @"default transform broken %@", hasLoadedView);
   XCTAssertTrue(CATransform3DEqualToTransform(CATransform3DIdentity, node.subnodeTransform), @"default subnodeTransform broken %@", hasLoadedView);

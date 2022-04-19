@@ -1180,7 +1180,7 @@
 
 #pragma mark - ASRangeControllerUpdateRangeProtocol
 
-- (void)updateCurrentRangeWithMode:(ASLayoutRangeMode)rangeMode;
+- (void)updateCurrentRangeWithMode:(ASLayoutRangeMode)rangeMode
 {
   if ([self pendingState]) {
     _pendingState.rangeMode = rangeMode;
