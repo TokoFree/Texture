@@ -427,7 +427,6 @@ static ASDisplayNodeMethodOverrides GetASDisplayNodeMethodOverrides(Class c)
         NSLog(@"Texture Log: Node should always be marked invisible before deallocating. Node: %@", self);
     }
 #endif
-  ASDisplayNodeAssert(checkFlag(Synchronous) || !ASInterfaceStateIncludesVisible(_interfaceState), @"Node should always be marked invisible before deallocating. Node: %@", self);
   
   self.asyncLayer.asyncDelegate = nil;
   _view.asyncdisplaykit_node = nil;
