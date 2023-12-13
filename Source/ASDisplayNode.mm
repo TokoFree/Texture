@@ -422,6 +422,13 @@ static ASDisplayNodeMethodOverrides GetASDisplayNodeMethodOverrides(Class c)
   _flags.isDeallocating = YES;
 
   // Synchronous nodes may not be able to call the hierarchy notifications, so only enforce for regular nodes.
+    
+/* Note:
+ *** This is a customization update to fix integration between UIKit and Texture.
+ When a node attach to UIView component, the node itself can't change the visibility state and eventually will call assertion (on original code before customization)
+    Hence we disabled the assertion and logging it just in case needed for further debugging
+ ***
+  */
 #if DEBUG
     if (checkFlag(Synchronous) || !ASInterfaceStateIncludesVisible(_interfaceState)) {
         NSLog(@"Texture Log: Node should always be marked invisible before deallocating. Node: %@", self);
