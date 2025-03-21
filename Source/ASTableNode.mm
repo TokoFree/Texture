@@ -51,6 +51,9 @@
 @end
 
 @implementation _ASTablePendingState
+
+static void (^_didSelectTableLoggingData)(ASCellNode *) = nil;
+
 - (instancetype)init
 {
   self = [super init];
@@ -192,6 +195,14 @@
 {
   [super didExitPreloadState];
   [self.rangeController clearPreloadedData];
+}
+
++ (void)setDidSelectTableLoggingData:(void (^)(ASCellNode *))didSelectTableLoggingData {
+    _didSelectTableLoggingData = [didSelectTableLoggingData copy];
+}
+
++ (void (^)(ASCellNode *))didSelectTableLoggingData {
+    return _didSelectTableLoggingData;
 }
 
 #pragma mark Setter / Getter

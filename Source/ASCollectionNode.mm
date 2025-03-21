@@ -62,6 +62,8 @@
 
 @implementation _ASCollectionPendingState
 
+static void (^_didSelectCollectionLoggingData)(ASCellNode *) = nil;
+
 - (instancetype)init
 {
   self = [super init];
@@ -287,6 +289,14 @@
 {
   [super didExitPreloadState];
   [self.rangeController clearPreloadedData];
+}
+
++ (void)setDidSelectCollectionLoggingData:(void (^)(ASCellNode *))didSelectCollectionLoggingData {
+    _didSelectCollectionLoggingData = [didSelectCollectionLoggingData copy];
+}
+
++ (void (^)(ASCellNode *))didSelectCollectionLoggingData {
+    return _didSelectCollectionLoggingData;
 }
 
 #pragma mark Setter / Getter

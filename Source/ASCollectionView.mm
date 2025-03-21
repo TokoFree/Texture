@@ -1385,11 +1385,27 @@ static NSString * const kReuseIdentifier = @"_ASCollectionReuseIdentifier";
     GET_COLLECTIONNODE_OR_RETURN(collectionNode, (void)0);
     indexPath = [self convertIndexPathToCollectionNode:indexPath];
     if (indexPath != nil) {
+      if (ASCollectionNode.didSelectCollectionLoggingData) {
+        ASCellNode *node = [collectionNode nodeForItemAtIndexPath:indexPath];
+          
+        if(node) {
+            ASCollectionNode.didSelectCollectionLoggingData(node);
+        }
+      }
+
       [_asyncDelegate collectionNode:collectionNode didSelectItemAtIndexPath:indexPath];
     }
   } else if (_asyncDelegateFlags.collectionViewDidSelectItem) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (ASCollectionNode.didSelectCollectionLoggingData) {
+        ASCellNode *node = [self nodeForItemAtIndexPath:indexPath];
+          
+        if(node) {
+            ASCollectionNode.didSelectCollectionLoggingData(node);
+        }
+    }
+    
     [_asyncDelegate collectionView:self didSelectItemAtIndexPath:indexPath];
 #pragma clang diagnostic pop
   }

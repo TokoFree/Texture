@@ -341,6 +341,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)moveRowAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath;
 
+@property (class, nonatomic, copy) void (^didSelectTableLoggingData)(ASCellNode *node);
+
 #pragma mark - Selection
 
 /**

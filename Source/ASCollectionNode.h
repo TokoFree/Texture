@@ -244,6 +244,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) ASScrollDirection scrollableDirections;
 
+@property (class, nonatomic, copy) void (^didSelectCollectionLoggingData)(ASCellNode *node);
+
 #pragma mark - Editing
 
 /**

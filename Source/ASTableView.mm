@@ -1077,11 +1077,27 @@ static NSString * const kCellReuseIdentifier = @"_ASTableViewCell";
     GET_TABLENODE_OR_RETURN(tableNode, (void)0);
     indexPath = [self convertIndexPathToTableNode:indexPath];
     if (indexPath != nil) {
+      if (ASTableNode.didSelectTableLoggingData) {
+        ASCellNode *node = [tableNode nodeForRowAtIndexPath:indexPath];
+          
+        if(node) {
+            ASTableNode.didSelectTableLoggingData(node);
+        }
+      }
+
       [_asyncDelegate tableNode:tableNode didSelectRowAtIndexPath:indexPath];
     }
   } else if (_asyncDelegateFlags.tableViewDidSelectRow) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (ASTableNode.didSelectTableLoggingData) {
+        ASCellNode *node = [self nodeForRowAtIndexPath:indexPath];
+          
+        if(node) {
+            ASTableNode.didSelectTableLoggingData(node);
+        }
+    }
+
     [_asyncDelegate tableView:self didSelectRowAtIndexPath:indexPath];
 #pragma clang diagnostic pop
   }
